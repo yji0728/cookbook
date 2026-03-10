@@ -20,6 +20,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "android:init": "tauri android init --ci --skip-targets-install",
+    "build:apk": "tauri android build --ci --apk",
     "preview": "vite preview",
     "lint": "eslint src/ mcp-servers/*/src/ --ext .ts,.tsx",
     "lint:fix": "eslint src/ mcp-servers/*/src/ --ext .ts,.tsx --fix",
@@ -29,6 +31,7 @@
     "test:watch": "vitest",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:model-behavior": "vitest run --config vitest.model.config.ts",
+    "test:model-behavior:real": "./scripts/run-real-model-tests.sh",
     "validate:servers": "./scripts/validate-mcp-servers.sh"
   },
   "devDependencies": {

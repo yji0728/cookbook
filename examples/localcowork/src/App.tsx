@@ -1,7 +1,10 @@
+import { useEffect } from "react";
+
 import { ChatPanel } from "./components/Chat";
 import { FileBrowser } from "./components/FileBrowser";
 import { OnboardingWizard } from "./components/Onboarding";
 import { SettingsPanel } from "./components/Settings";
+import { FeatureModelDownloads } from "./components/Startup/FeatureModelDownloads";
 import { useOnboardingStore } from "./stores/onboardingStore";
 import { useSettingsStore } from "./stores/settingsStore";
 
@@ -12,7 +15,15 @@ import { useSettingsStore } from "./stores/settingsStore";
  */
 export function App(): React.JSX.Element {
   const toggleSettings = useSettingsStore((s) => s.togglePanel);
+  const loadModelsConfig = useSettingsStore((s) => s.loadModelsConfig);
+  const modelsOverview = useSettingsStore((s) => s.modelsOverview);
   const isOnboardingComplete = useOnboardingStore((s) => s.isComplete);
+
+  useEffect(() => {
+    if (isOnboardingComplete && modelsOverview == null) {
+      void loadModelsConfig();
+    }
+  }, [isOnboardingComplete, loadModelsConfig, modelsOverview]);
 
   if (!isOnboardingComplete) {
     return <OnboardingWizard />;
@@ -39,6 +50,10 @@ export function App(): React.JSX.Element {
           &#9881;
         </button>
       </header>
+
+      {modelsOverview != null ? (
+        <FeatureModelDownloads overview={modelsOverview} />
+      ) : null}
 
       <main className="app-main">
         <FileBrowser />

@@ -139,6 +139,20 @@ cargo tauri dev
 
 MCP servers start automatically. The app auto-discovers them by scanning `mcp-servers/` at startup.
 
+### Android APK build
+
+This example now includes Tauri Android scaffolding under `src-tauri/gen/android/`.
+
+```bash
+# One-time scaffold refresh (already committed in this repo)
+npm run android:init
+
+# Build release APK(s)
+npm run build:apk
+```
+
+On first app launch after deployment, LocalCowork surfaces model download cards for the enabled server/features in `_models/config.yaml` so users can install the needed runtime models from inside the app.
+
 ## Customizing the Tool Surface
 
 Out of the box, the app starts **6 servers with 20 curated tools** -- the set that scores 80%+ accuracy. Two settings in `_models/config.yaml` control this:
@@ -226,8 +240,11 @@ source .venv/bin/activate && \
     (cd "mcp-servers/$s" && pytest); done   # Python server unit tests
 npm run test:integration          # UC-1 through UC-10 end-to-end
 npm run test:model-behavior       # 180 prompt-to-tool definitions
+npm run test:model-behavior:real  # download a real model, start llama-server, then run live behavior tests
 cd src-tauri && cargo test        # 357 Rust tests (agent core, MCP client, inference)
 ```
+
+`test:model-behavior:real` expects `LOCALCOWORK_REAL_MODEL_REPO` and `LOCALCOWORK_REAL_MODEL_FILE` so CI/build jobs can download an actual GGUF before exercising the live model endpoint.
 
 See the [testing section](docs/PRD.md) in the PRD for the full strategy.
 

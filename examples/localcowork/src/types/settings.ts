@@ -24,6 +24,7 @@ export interface ModelsOverview {
   readonly activeModel: string;
   readonly models: readonly ModelConfig[];
   readonly fallbackChain: readonly string[];
+  readonly enabledServers: readonly string[];
 }
 
 /** Status of a single MCP server. */
