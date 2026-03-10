@@ -41,7 +41,7 @@ const VISION_DOWNLOADS: readonly DownloadableAsset[] = [
     url: "https://huggingface.co/LiquidAI/LFM2.5-VL-1.6B-GGUF/resolve/main/LFM2.5-VL-1.6B-Q8_0.gguf?download=true",
   },
   {
-    label: "mmproj-LFM2.5-VL-1.6b-Q8_0.gguf",
+    label: "mmproj-LFM2.5-VL-1.6B-Q8_0.gguf",
     url: "https://huggingface.co/LiquidAI/LFM2.5-VL-1.6B-GGUF/resolve/main/mmproj-LFM2.5-VL-1.6b-Q8_0.gguf?download=true",
   },
 ];
