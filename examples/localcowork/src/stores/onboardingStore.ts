@@ -133,8 +133,16 @@ interface OnboardingActions {
   clearError: () => void;
   /** Detect hardware via Tauri IPC. */
   detectHardware: () => Promise<void>;
-  /** Start model download (GGUF) via Tauri IPC. Returns an unlisten function. */
-  startDownload: (url: string) => Promise<UnlistenFn | null>;
+  /**
+   * Start model download (GGUF) via Tauri IPC. Returns an unlisten function.
+   *
+   * When `selectDownloadedModel` is false, the download completes without
+   * changing the currently selected onboarding model.
+   */
+  startDownload: (
+    url: string,
+    selectDownloadedModel?: boolean,
+  ) => Promise<UnlistenFn | null>;
   /** Set downloading state to false (used on completion/error). */
   stopDownloading: () => void;
   /** Check llama-server health (localhost:8080). */
@@ -270,7 +278,10 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
     }
   },
 
-  startDownload: async (url: string): Promise<UnlistenFn | null> => {
+  startDownload: async (
+    url: string,
+    selectDownloadedModel = true,
+  ): Promise<UnlistenFn | null> => {
     set({ isDownloading: true, downloadProgress: null, error: null });
 
     // Listen for progress events
@@ -293,10 +304,10 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
         { url, targetDir: modelDir },
       );
       if (result.success) {
-        set({
-          modelPath: result.modelPath,
+        set((state) => ({
+          modelPath: selectDownloadedModel ? result.modelPath : state.modelPath,
           isDownloading: false,
-        });
+        }));
       } else {
         set({ error: "Download failed", isDownloading: false });
       }

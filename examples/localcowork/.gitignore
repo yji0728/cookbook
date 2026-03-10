@@ -11,7 +11,9 @@ target/
 dist/
 build/
 *.tsbuildinfo
-src-tauri/gen/
+src-tauri/gen/*
+!src-tauri/gen/android/
+!src-tauri/gen/android/**
 
 # ─── Local models (large binary files) ────────────────────────────────────
 _models/*.gguf

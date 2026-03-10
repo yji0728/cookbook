@@ -31,6 +31,7 @@ pub struct ModelsOverviewInfo {
     pub active_model: String,
     pub models: Vec<ModelConfigInfo>,
     pub fallback_chain: Vec<String>,
+    pub enabled_servers: Vec<String>,
 }
 
 /// MCP server status.
@@ -78,6 +79,7 @@ pub fn get_models_config() -> Result<ModelsOverviewInfo, String> {
         active_model: config.active_model.clone(),
         models,
         fallback_chain: config.fallback_chain.clone(),
+        enabled_servers: config.enabled_servers.clone().unwrap_or_default(),
     })
 }
 
